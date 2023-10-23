@@ -1,0 +1,14 @@
+stages:
+  - deploy
+
+deploy_dev:
+  environment: develop
+  stage: deploy
+  image: napp/docker-aws-cli
+  script:
+    - zip brain.zip -r .
+    - aws s3 cp ./brain.zip s3://$BRAIN_DEPLOYMENT_BUCKET
+  only:
+  - v0
+  when: always
+

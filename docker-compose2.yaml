@@ -1,0 +1,37 @@
+version: "3.3"
+services:
+  mongo:
+    image: mongo
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodb_data_container:/data/db
+
+    networks:
+      - proxynet
+
+  app:
+    build: .
+    container_name: article_management_api
+    restart: always
+    ports:
+      - 9090:9090
+    volumes:
+      - ./config.yaml:/app/config.yaml
+      - ./rds-combined-ca-bundle.pem:/app/rds-combined-ca-bundle.pem
+      - ./credentials.json:/app/credentials.json
+    networks:
+      - proxynet
+
+
+
+networks:
+  proxynet:
+    name: custom_network
+
+volumes:
+  mongodb_data_container:
