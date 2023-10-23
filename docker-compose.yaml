@@ -2,7 +2,7 @@ version: "3.3"
 services:
   app:
     build: .
-    container_name: article_management_api
+    container_name: calendar_events_processor
     ports:
       - 9090:9090
     volumes:
